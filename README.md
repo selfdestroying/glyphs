@@ -1,10 +1,12 @@
 # digits-background
 
 Interactive, customizable animated grid of glyphs rendered on a single HTML5
-`<canvas>`. Zero dependencies, zero build step, ~16 KB of ES modules.
+`<canvas>`. Zero dependencies, zero build step, ships as plain ES modules
+(~30 KB raw / ~8 KB gzipped for the core, ~43 KB / ~12 KB with the optional
+control panel).
 
 <p align="center">
-    <img src="https://img.shields.io/badge/size-%3C20KB-4c8cff" alt="size" />
+    <img src="https://img.shields.io/badge/core-~8KB%20gzipped-4c8cff" alt="size" />
     <img src="https://img.shields.io/badge/deps-0-32c48d" alt="no dependencies" />
     <img src="https://img.shields.io/badge/license-MIT-f5a524" alt="license" />
 </p>
@@ -49,15 +51,20 @@ Interactive, customizable animated grid of glyphs rendered on a single HTML5
 
 ### 2. Run the demo locally
 
-The demo uses ES modules so it needs to be served over HTTP (opening the
-`index.html` via `file://` will not work in most browsers).
+The demo imports ES modules via relative paths. Browsers refuse to load
+modules over the `file://` protocol — they require an HTTP(S) origin with a
+proper `Content-Type`. Serve the folder over any static HTTP server:
 
 ```bash
 npm run serve
 # then open http://localhost:5173
 ```
 
-Any static server works (`python -m http.server`, `npx serve`, …).
+Any static server works — `npx serve`, `python -m http.server`, VS Code's
+Live Server extension, etc. The hosted demo on GitHub Pages works the same
+way, just without the local step:
+
+> https://selfdestroying.github.io/digits-background/
 
 ---
 
