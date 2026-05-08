@@ -9,6 +9,10 @@ Interactive, customizable animated grid of glyphs rendered on a single HTML5
     <img src="https://img.shields.io/badge/license-MIT-f5a524" alt="license" />
 </p>
 
+<p align="center">
+    <a href="https://selfdestroying.github.io/digits-background/"><strong>▶ Live demo</strong></a>
+</p>
+
 ## Highlights
 
 - **Fast.** Pre-computed color lookup tables, typed arrays for cell state,
