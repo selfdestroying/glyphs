@@ -29,69 +29,69 @@ import { DEFAULT_OPTIONS, OPTION_CONSTRAINTS } from "./defaults.js";
 export const DEFAULT_SCHEMA = [
     {
         id: "main",
-        title: "Основное",
+        title: "Main",
         open: true,
         variant: "stack",
         controls: [
             {
                 id: "pointerInteraction",
                 kind: "switch",
-                label: "Реакция на мышь",
-                hint: "включить управление курсором",
+                label: "Pointer interaction",
+                hint: "Enable cursor-driven control",
             },
-            { id: "fontSize", kind: "range", label: "Размер" },
-            { id: "sizeBoost", kind: "range", label: "Увеличение активных" },
-            { id: "spacingBoost", kind: "range", label: "Расстояние активных" },
-            { id: "startOpacity", kind: "range", label: "Начальная прозрачность" },
+            { id: "fontSize", kind: "range", label: "Size" },
+            { id: "sizeBoost", kind: "range", label: "Active size boost" },
+            { id: "spacingBoost", kind: "range", label: "Active spacing" },
+            { id: "startOpacity", kind: "range", label: "Base opacity" },
         ],
     },
     {
         id: "interaction",
-        title: "Взаимодействие",
+        title: "Interaction",
         variant: "grid",
         controls: [
-            { id: "innerRadius", kind: "range", label: "Внутр. радиус" },
-            { id: "outerRadius", kind: "range", label: "Внешн. радиус" },
-            { id: "interactionSoftness", kind: "range", label: "Мягкость" },
-            { id: "followSpeed", kind: "range", label: "Следование" },
-            { id: "fadeInSpeed", kind: "range", label: "Появление" },
-            { id: "fadeOutSpeed", kind: "range", label: "Затухание" },
+            { id: "innerRadius", kind: "range", label: "Inner radius" },
+            { id: "outerRadius", kind: "range", label: "Outer radius" },
+            { id: "interactionSoftness", kind: "range", label: "Softness" },
+            { id: "followSpeed", kind: "range", label: "Follow" },
+            { id: "fadeInSpeed", kind: "range", label: "Fade in" },
+            { id: "fadeOutSpeed", kind: "range", label: "Fade out" },
         ],
     },
     {
         id: "chars",
-        title: "Символы",
+        title: "Characters",
         variant: "grid",
         controls: [
-            { id: "baseCharChangeChance", kind: "range", label: "Базовая смена" },
-            { id: "activeCharChangeChance", kind: "range", label: "Активная смена" },
-            { id: "charChangeSpeed", kind: "range", label: "Скорость шума" },
-            { id: "charChangeInterval", kind: "range", label: "Интервал" },
+            { id: "baseCharChangeChance", kind: "range", label: "Base change" },
+            { id: "activeCharChangeChance", kind: "range", label: "Active change" },
+            { id: "charChangeSpeed", kind: "range", label: "Noise speed" },
+            { id: "charChangeInterval", kind: "range", label: "Interval" },
         ],
     },
     {
         id: "color",
-        title: "Цвет",
+        title: "Color",
         variant: "grid",
         controls: [
-            { id: "colorMin", kind: "color", label: "Начальный цвет" },
-            { id: "colorMax", kind: "color", label: "Активный цвет" },
+            { id: "colorMin", kind: "color", label: "Base color" },
+            { id: "colorMax", kind: "color", label: "Active color" },
         ],
     },
     {
         id: "glow",
-        title: "Свечение",
+        title: "Glow",
         variant: "stack",
         controls: [
-            { id: "startGlow", kind: "range", label: "Начальное свечение" },
-            { id: "glow", kind: "range", label: "Усиливание" },
-            { id: "glowColorMin", kind: "color", label: "Начальный цвет" },
-            { id: "glowColorMax", kind: "color", label: "Активный цвет" },
+            { id: "startGlow", kind: "range", label: "Base glow" },
+            { id: "glow", kind: "range", label: "Boost" },
+            { id: "glowColorMin", kind: "color", label: "Base color" },
+            { id: "glowColorMax", kind: "color", label: "Active color" },
         ],
     },
     {
         id: "trail",
-        title: "След",
+        title: "Trail",
         variant: "stack",
         controls: [
             { id: "motionBlur", kind: "range", label: "Motion blur" },
@@ -175,9 +175,9 @@ export class ControlPanel {
         this._fpsTimer = 0;
 
         this._render({
-            title: options.title || "Панель",
+            title: options.title || "Controls",
             subtitle:
-                options.subtitle || "Настройки сгруппированы по задачам",
+                options.subtitle || "Settings grouped by purpose",
             status: options.status || "Live",
         });
         this._syncAll();
@@ -229,8 +229,8 @@ export class ControlPanel {
         if (this.showReset) {
             const btn = makeEl("button", "dbg-panel__reset", {
                 type: "button",
-                text: "Сброс",
-                title: "Сбросить настройки",
+                text: "Reset",
+                title: "Reset to defaults",
             });
             btn.addEventListener("click", () => this._handleReset());
             headerActions.appendChild(btn);
