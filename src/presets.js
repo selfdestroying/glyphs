@@ -1,0 +1,352 @@
+import { DEFAULT_ALPHABET } from "./defaults.js";
+
+/**
+ * A visual preset is a partial options object applied via
+ * `background.resetOptions(preset.options)`. Anything not specified falls
+ * back to the library defaults, so each preset starts from a clean state.
+ *
+ * @typedef {{
+ *     id: string,
+ *     name: string,
+ *     description?: string,
+ *     options: Partial<import("./defaults.js").DigitsBackgroundOptions>,
+ * }} Preset
+ */
+
+/** @type {Preset[]} */
+export const DEFAULT_PRESETS = Object.freeze([
+  {
+    id: "pure",
+    name: "Pure",
+    description: "Library defaults with pointer interaction enabled.",
+    options: {
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "matrix",
+    name: "Matrix",
+    description: "Dense green digital rain with long motion-blur trails.",
+    options: {
+      alphabet: "0123456789ABCDEFｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎ!@#$%",
+      fontFamily: "monospace",
+      fontSize: 20,
+      cellSize: 22,
+      colorMin: "#063a14",
+      colorMax: "#9affb1",
+      glowColorMin: "#0a5023",
+      glowColorMax: "#7dffae",
+      startGlow: 2,
+      glow: 8,
+      startOpacity: 0.04,
+      motionBlur: 0.93,
+      baseCharChangeChance: 0.025,
+      activeCharChangeChance: 0.5,
+      charChangeSpeed: 1.3,
+      sizeBoost: 0,
+      spacingBoost: 0,
+      pointerInteraction: false,
+    },
+  },
+  {
+    id: "ember",
+    name: "Ember",
+    description: "Warm fireplace glow, deep shadows, soft trails.",
+    options: {
+      alphabet: DEFAULT_ALPHABET,
+      fontSize: 32,
+      colorMin: "#1c0700",
+      colorMax: "#ffb066",
+      glowColorMin: "#5a1500",
+      glowColorMax: "#ff6a1f",
+      startGlow: 1,
+      glow: 16,
+      startOpacity: 0.12,
+      motionBlur: 0.45,
+      innerRadius: 0,
+      outerRadius: 10,
+      interactionSoftness: 2.5,
+      sizeBoost: 14,
+      spacingBoost: 8,
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "ice",
+    name: "Ice",
+    description: "Cold blues, wide pointer halo, gentle drift.",
+    options: {
+      alphabet: DEFAULT_ALPHABET,
+      fontSize: 28,
+      colorMin: "#0a223a",
+      colorMax: "#cfeaff",
+      glowColorMin: "#0a4d80",
+      glowColorMax: "#9ad5ff",
+      startGlow: 1,
+      glow: 12,
+      startOpacity: 0.18,
+      innerRadius: 1,
+      outerRadius: 14,
+      interactionSoftness: 1.8,
+      motionBlur: 0.25,
+      sizeBoost: 10,
+      spacingBoost: 12,
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "neon",
+    name: "Neon",
+    description: "Synthwave magenta-to-cyan gradient with bloom and lift.",
+    options: {
+      alphabet: "01アイウエオ#%&*+=<>{}/\\|",
+      fontSize: 24,
+      colorMin: "#1a0033",
+      colorMax: "#ff4ec5",
+      glowColorMin: "#3a00ff",
+      glowColorMax: "#26f7ff",
+      startGlow: 2,
+      glow: 20,
+      startOpacity: 0.08,
+      innerRadius: 0,
+      outerRadius: 11,
+      interactionSoftness: 1.4,
+      motionBlur: 0.55,
+      sizeBoost: 22,
+      spacingBoost: 14,
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "halftone",
+    name: "Halftone",
+    description: "Print-style monochrome dot pattern, no glow, dense grid.",
+    options: {
+      alphabet: "·•●○◌◍◎◐◑◒◓◔◕◖◗",
+      fontSize: 18,
+      cellSize: 14,
+      colorMin: "#3a3a3a",
+      colorMax: "#f0f0f0",
+      glowColorMin: "#ffffff",
+      glowColorMax: "#ffffff",
+      startGlow: 0,
+      glow: 0,
+      startOpacity: 0.55,
+      innerRadius: 1,
+      outerRadius: 8,
+      interactionSoftness: 2,
+      motionBlur: 0,
+      baseCharChangeChance: 0.001,
+      activeCharChangeChance: 0.08,
+      charChangeSpeed: 0.6,
+      sizeBoost: 0,
+      spacingBoost: 0,
+      pointerInteraction: true,
+    },
+  },
+
+  // -----------------------------------------------------------------
+  // Production-oriented presets, designed to sit *behind* real content.
+  // Inspired by shadcn neutrals (Slate / Stone) and Ant Design accents
+  // (Daybreak Blue, Volcano, Polar Green, Geek Blue). All of them keep
+  // contrast low, motion subtle, and disable trails to stay readable
+  // under foreground UI.
+  // -----------------------------------------------------------------
+
+  {
+    id: "slate",
+    name: "Slate",
+    description: "shadcn slate — cool graphite, suits dashboards and docs.",
+    options: {
+      alphabet: DEFAULT_ALPHABET,
+      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+      fontSize: 14,
+      cellSize: 34,
+      colorMin: "#1e293b", // slate-800
+      colorMax: "#cbd5e1", // slate-300
+      glowColorMin: "#1e293b",
+      glowColorMax: "#94a3b8",
+      startGlow: 0,
+      glow: 2,
+      startOpacity: 0.5,
+      innerRadius: 1,
+      outerRadius: 10,
+      interactionSoftness: 2.2,
+      followSpeed: 0.12,
+      fadeInSpeed: 0.18,
+      fadeOutSpeed: 0.15,
+      baseCharChangeChance: 0.003,
+      activeCharChangeChance: 0.12,
+      charChangeSpeed: 0.55,
+      sizeBoost: 4,
+      spacingBoost: 2,
+      motionBlur: 0,
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "stone",
+    name: "Stone",
+    description: "shadcn stone — warm beige neutral, paper-like calm.",
+    options: {
+      alphabet: DEFAULT_ALPHABET,
+      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+      fontSize: 14,
+      cellSize: 34,
+      colorMin: "#292524", // stone-800
+      colorMax: "#d6d3d1", // stone-300
+      glowColorMin: "#292524",
+      glowColorMax: "#a8a29e",
+      startGlow: 0,
+      glow: 2,
+      startOpacity: 0.5,
+      innerRadius: 0,
+      outerRadius: 9,
+      interactionSoftness: 2.4,
+      followSpeed: 0.11,
+      fadeInSpeed: 0.18,
+      fadeOutSpeed: 0.04,
+      baseCharChangeChance: 0.0025,
+      activeCharChangeChance: 0.1,
+      charChangeSpeed: 0.5,
+      sizeBoost: 3,
+      spacingBoost: 2,
+      motionBlur: 0,
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "sapphire",
+    name: "Sapphire",
+    description: "Muted Ant Design Daybreak Blue — refined product accent.",
+    options: {
+      alphabet: DEFAULT_ALPHABET,
+      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+      fontSize: 14,
+      cellSize: 34,
+      colorMin: "#0c1f3a",
+      colorMax: "#60a5fa", // blue-400
+      glowColorMin: "#0c1f3a",
+      glowColorMax: "#3b82f6", // blue-500
+      startGlow: 0,
+      glow: 4,
+      startOpacity: 0.5,
+      innerRadius: 0,
+      outerRadius: 10,
+      interactionSoftness: 2,
+      followSpeed: 0.12,
+      fadeInSpeed: 0.2,
+      fadeOutSpeed: 0.04,
+      baseCharChangeChance: 0.003,
+      activeCharChangeChance: 0.12,
+      charChangeSpeed: 0.5,
+      sizeBoost: 4,
+      spacingBoost: 3,
+      motionBlur: 0,
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "sunset",
+    name: "Sunset",
+    description: "Soft amber accent — warm without overpowering.",
+    options: {
+      alphabet: DEFAULT_ALPHABET,
+      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+      fontSize: 14,
+      cellSize: 34,
+      colorMin: "#2a1407",
+      colorMax: "#fbbf24", // amber-400
+      glowColorMin: "#2a1407",
+      glowColorMax: "#f59e0b", // amber-500
+      startGlow: 0,
+      glow: 4,
+      startOpacity: 0.5,
+      innerRadius: 0,
+      outerRadius: 10,
+      interactionSoftness: 2,
+      followSpeed: 0.12,
+      fadeInSpeed: 0.2,
+      fadeOutSpeed: 0.04,
+      baseCharChangeChance: 0.003,
+      activeCharChangeChance: 0.12,
+      charChangeSpeed: 0.55,
+      sizeBoost: 4,
+      spacingBoost: 3,
+      motionBlur: 0,
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "forest",
+    name: "Forest",
+    description: "Muted polar green for documentation and data-rich apps.",
+    options: {
+      alphabet: DEFAULT_ALPHABET,
+      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+      fontSize: 14,
+      cellSize: 34,
+      colorMin: "#0a1f15",
+      colorMax: "#34d399", // emerald-400
+      glowColorMin: "#0a1f15",
+      glowColorMax: "#10b981", // emerald-500
+      startGlow: 0,
+      glow: 3,
+      startOpacity: 0.5,
+      innerRadius: 0,
+      outerRadius: 9,
+      interactionSoftness: 2.2,
+      followSpeed: 0.12,
+      fadeInSpeed: 0.18,
+      fadeOutSpeed: 0.04,
+      baseCharChangeChance: 0.003,
+      activeCharChangeChance: 0.1,
+      charChangeSpeed: 0.5,
+      sizeBoost: 3,
+      spacingBoost: 2,
+      motionBlur: 0,
+      pointerInteraction: true,
+    },
+  },
+  {
+    id: "plum",
+    name: "Plum",
+    description: "Deep violet — refined, content-friendly accent.",
+    options: {
+      alphabet: DEFAULT_ALPHABET,
+      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+      fontSize: 14,
+      cellSize: 34,
+      colorMin: "#1a0f2e",
+      colorMax: "#c4b5fd", // violet-300
+      glowColorMin: "#1a0f2e",
+      glowColorMax: "#8b5cf6", // violet-500
+      startGlow: 0,
+      glow: 3,
+      startOpacity: 0.5,
+      innerRadius: 0,
+      outerRadius: 10,
+      interactionSoftness: 2,
+      followSpeed: 0.12,
+      fadeInSpeed: 0.18,
+      fadeOutSpeed: 0.04,
+      baseCharChangeChance: 0.003,
+      activeCharChangeChance: 0.1,
+      charChangeSpeed: 0.5,
+      sizeBoost: 3,
+      spacingBoost: 2,
+      motionBlur: 0,
+      pointerInteraction: true,
+    },
+  },
+]);
+
+/**
+ * Look up a preset by its id. Returns `undefined` if not found.
+ * @param {string} id
+ * @param {Preset[]} [presets]
+ * @returns {Preset | undefined}
+ */
+export function getPresetById(id, presets = DEFAULT_PRESETS) {
+  return presets.find((p) => p.id === id);
+}

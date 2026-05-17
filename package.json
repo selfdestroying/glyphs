@@ -52,7 +52,7 @@
     },
     "scripts": {
         "serve": "npx --yes http-server -c-1 -p 5173 .",
-        "lint": "node --check src/DigitsBackground.js && node --check src/ControlPanel.js && node --check src/color-utils.js && node --check src/defaults.js && node --check src/index.js && node --check demo/main.js",
+        "lint": "node --check src/DigitsBackground.js && node --check src/ControlPanel.js && node --check src/color-utils.js && node --check src/defaults.js && node --check src/presets.js && node --check src/index.js && node --check demo/main.js",
         "test": "node scripts/smoke.mjs"
     },
     "sideEffects": false,

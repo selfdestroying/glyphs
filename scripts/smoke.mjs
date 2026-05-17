@@ -5,6 +5,7 @@
 import { hexToRgb, buildColorLUT, lookupColor } from "../src/color-utils.js";
 import { DEFAULT_OPTIONS } from "../src/defaults.js";
 import { DigitsBackground } from "../src/DigitsBackground.js";
+import { DEFAULT_PRESETS, getPresetById } from "../src/presets.js";
 
 // --- color-utils -----------------------------------------------------------
 
@@ -95,6 +96,47 @@ assert(
     bg.getOption("fontSize") === DEFAULT_OPTIONS.fontSize,
     "reset restores defaults",
 );
+
+// cellSize: 0 (default) should follow fontSize; non-zero should override grid spacing.
+assert(bg.getOption("cellSize") === 0, "cellSize default");
+bg.setOption("cellSize", 64);
+assert(bg.getOption("cellSize") === 64, "cellSize write");
+bg.setOption("cellSize", 0);
+assert(bg.getOption("cellSize") === 0, "cellSize reset to follow fontSize");
+
+// --- presets ---------------------------------------------------------------
+
+assert(Array.isArray(DEFAULT_PRESETS), "presets are an array");
+assert(DEFAULT_PRESETS.length >= 3, "ships with several presets");
+
+const ids = new Set();
+for (const preset of DEFAULT_PRESETS) {
+    assert(typeof preset.id === "string" && preset.id, "preset has id");
+    assert(typeof preset.name === "string" && preset.name, "preset has name");
+    assert(
+        preset.options && typeof preset.options === "object",
+        "preset has options",
+    );
+    assert(!ids.has(preset.id), `preset id "${preset.id}" is unique`);
+    ids.add(preset.id);
+
+    // Every key in the preset must be a known option.
+    for (const key of Object.keys(preset.options)) {
+        assert(
+            key in DEFAULT_OPTIONS,
+            `preset "${preset.id}" uses unknown option "${key}"`,
+        );
+    }
+
+    // Applying via resetOptions must not throw.
+    bg.resetOptions(preset.options);
+}
+
+assert(getPresetById("matrix") !== undefined, "lookup by id works");
+assert(getPresetById("__missing__") === undefined, "missing id returns undef");
+
+// ControlPanel can be smoke-tested without the DOM only superficially —
+// the constructor needs an Element host. Skip full panel testing here.
 
 bg.start();
 bg.stop();

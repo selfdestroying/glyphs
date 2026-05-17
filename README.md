@@ -133,6 +133,7 @@ Every option has a sensible default (see [`src/defaults.js`](./src/defaults.js))
 | `fontFamily`              | `string`  | `monospace`| Any CSS font-family.                                            |
 | `fontWeight`              | `string`  | `normal`   | Any CSS font-weight.                                            |
 | `fontSize`                | `number`  | `36`       | Base glyph size in CSS pixels.                                  |
+| `cellSize`                | `number`  | `0`        | Grid cell size in CSS pixels. `0` makes the grid follow `fontSize`. The bundled control panel constrains the slider to `12..120` to avoid catastrophic densities; `0` is reachable via API/presets only. |
 | `startOpacity`            | `number`  | `0.2`      | Baseline opacity for every cell.                                |
 | `pointerInteraction`      | `boolean` | `false`    | Respond to pointer movement.                                    |
 | `innerRadius`             | `number`  | `0`        | Full-intensity radius, **in font sizes**.                       |
@@ -166,10 +167,46 @@ import { DigitsBackground, ControlPanel } from "./src/index.js";
 
 const bg = new DigitsBackground(canvas);
 new ControlPanel(document.getElementById("panel"), bg, {
-    showReset: true,
-    showFps: false,
+    showReset: true,    // default true
+    showFps: true,      // default true — live FPS in the header
+    defaultPreset: "slate",
 });
 ```
+
+### Presets
+
+The panel ships with two flavors of curated presets:
+
+- **Showcase** — `Pure`, `Matrix`, `Ember`, `Ice`, `Neon`, `Halftone`. Bold,
+  visual, good for landing-page hero sections.
+- **Production** — `Slate`, `Stone`, `Sapphire`, `Sunset`, `Forest`, `Plum`.
+  Inspired by shadcn neutrals and Ant Design accents — low-contrast,
+  no motion blur, modest glow. Designed to live behind real UI without
+  fighting the foreground.
+
+The panel also exposes a free-form `Alphabet` field — paste any string
+of glyphs (Latin, digits, katakana, dingbats, …) and the grid updates
+live. Picking a preset overwrites the alphabet; manual edits clear the
+active preset.
+
+They render as a row of chips at the top of the panel; clicking one
+calls `background.resetOptions(preset)`, so any option not in the preset
+reverts to its library default.
+
+```js
+import { DEFAULT_PRESETS, getPresetById } from "./src/index.js";
+
+// Apply a preset programmatically:
+panel.applyPreset("matrix");
+
+// Or use the data directly:
+const ember = getPresetById("ember");
+bg.resetOptions(ember.options);
+```
+
+Custom presets can be passed via the `presets` option, and the row can be
+hidden entirely with `showPresets: false`. Manually changing any control
+deselects the active preset.
 
 ---
 

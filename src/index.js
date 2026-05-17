@@ -5,4 +5,5 @@ export {
     OPTION_CONSTRAINTS,
     DEFAULT_ALPHABET,
 } from "./defaults.js";
+export { DEFAULT_PRESETS, getPresetById } from "./presets.js";
 export { hexToRgb, buildColorLUT, lookupColor } from "./color-utils.js";
